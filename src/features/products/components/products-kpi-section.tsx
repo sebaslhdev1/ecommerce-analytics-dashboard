@@ -2,6 +2,7 @@
 
 import { Package, DollarSign, AlertTriangle } from "lucide-react";
 import { KpiCard, KpiCardSkeleton } from "@/components/kpi-card";
+import { FadeIn } from "@/components/fade-in";
 import { useProducts } from "../hooks/use-products";
 import { LOW_STOCK_THRESHOLD } from "@/lib/constants/products";
 
@@ -12,7 +13,7 @@ export function ProductsKpiSection() {
 
   if (isLoading || !data) {
     return (
-      <div className="grid gap-4 sm:grid-cols-3" aria-busy="true" aria-label="Loading product KPIs">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-label="Loading product KPIs">
         {Array.from({ length: 3 }).map((_, i) => <KpiCardSkeleton key={i} />)}
       </div>
     );
@@ -23,7 +24,7 @@ export function ProductsKpiSection() {
   const lowStock = products.filter((p) => p.stock < LOW_STOCK_THRESHOLD).length;
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <FadeIn className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       <KpiCard
         title="Total Products"
         value={products.length}
@@ -51,6 +52,6 @@ export function ProductsKpiSection() {
         icon={AlertTriangle}
         iconClassName="bg-amber-100 text-amber-600"
       />
-    </div>
+    </FadeIn>
   );
 }

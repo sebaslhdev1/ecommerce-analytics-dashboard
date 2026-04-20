@@ -2,6 +2,7 @@
 
 import { TrendingUp, Users, UserCheck } from "lucide-react";
 import { KpiCard, KpiCardSkeleton, type KpiFormat } from "@/components/kpi-card";
+import { FadeIn } from "@/components/fade-in";
 import { usePerformanceKpi } from "../hooks/use-performance-kpi";
 import type { LucideIcon } from "lucide-react";
 
@@ -12,9 +13,9 @@ interface KpiConfig {
 }
 
 const KPI_CONFIG: KpiConfig[] = [
-  { format: "percent", icon: TrendingUp,  iconClassName: "bg-amber-100 text-amber-600" },
-  { format: "number",  icon: Users,       iconClassName: "bg-indigo-100 text-indigo-600" },
-  { format: "number",  icon: UserCheck,   iconClassName: "bg-emerald-100 text-emerald-600" },
+  { format: "percent", icon: TrendingUp, iconClassName: "bg-amber-100 text-amber-600" },
+  { format: "number",  icon: Users,      iconClassName: "bg-indigo-100 text-indigo-600" },
+  { format: "number",  icon: UserCheck,  iconClassName: "bg-emerald-100 text-emerald-600" },
 ];
 
 export function PerformanceKpiSection() {
@@ -24,14 +25,14 @@ export function PerformanceKpiSection() {
 
   if (isLoading || !data) {
     return (
-      <div className="grid gap-4 sm:grid-cols-3" aria-busy="true" aria-label="Loading KPIs">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-label="Loading KPIs">
         {Array.from({ length: 3 }).map((_, i) => <KpiCardSkeleton key={i} />)}
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <FadeIn className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       {data.map((kpi, i) => (
         <KpiCard
           key={kpi.title}
@@ -44,6 +45,6 @@ export function PerformanceKpiSection() {
           iconClassName={KPI_CONFIG[i].iconClassName}
         />
       ))}
-    </div>
+    </FadeIn>
   );
 }

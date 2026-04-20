@@ -8,7 +8,7 @@ export default function OrdersPage() {
   return (
     <>
       <Topbar title="Orders" />
-      <main className="flex-1 space-y-6 p-6" id="main-content">
+      <main className="flex-1 space-y-4 p-4 sm:space-y-6 sm:p-6" id="main-content">
         <OrdersTable />
       </main>
     </>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FadeIn } from "@/components/fade-in";
 import { RevenueAreaChart } from "@/components/charts/revenue-area-chart";
 import { useSalesChart } from "../hooks/use-sales-chart";
 
@@ -38,11 +39,10 @@ export function RevenueChartSection() {
       </CardHeader>
       <CardContent>
         {isError && <p className="text-sm text-destructive">Failed to load chart data.</p>}
-        {isLoading || !data ? (
-          <Skeleton className="h-[320px] w-full" aria-label="Loading chart" />
-        ) : (
-          <RevenueAreaChart data={data} />
-        )}
+        {isLoading || !data
+          ? <Skeleton className="h-80 w-full" aria-label="Loading chart" />
+          : <FadeIn><RevenueAreaChart data={data} /></FadeIn>
+        }
       </CardContent>
     </Card>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FadeIn } from "@/components/fade-in";
 import { ConversionAreaChart } from "@/components/charts/conversion-area-chart";
 import { CustomersLineChart } from "@/components/charts/customers-line-chart";
 import { usePerformanceChart } from "../hooks/use-performance-chart";
@@ -35,15 +36,10 @@ export function PerformanceChartsSection() {
     </div>
   );
 
-  const chartContent = (height: number) =>
-    isLoading || !data
-      ? <Skeleton className={`h-[${height}px] w-full`} aria-label="Loading chart" />
-      : null;
-
   if (isError) return <p className="text-sm text-destructive">Failed to load chart data.</p>;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-4">
           <CardTitle className="text-base">Conversion Rate</CardTitle>
@@ -51,8 +47,8 @@ export function PerformanceChartsSection() {
         </CardHeader>
         <CardContent>
           {isLoading || !data
-            ? <Skeleton className="h-[260px] w-full" />
-            : <ConversionAreaChart data={data} />}
+            ? <Skeleton className="h-64 w-full" />
+            : <FadeIn><ConversionAreaChart data={data} /></FadeIn>}
         </CardContent>
       </Card>
 
@@ -63,8 +59,8 @@ export function PerformanceChartsSection() {
         </CardHeader>
         <CardContent>
           {isLoading || !data
-            ? <Skeleton className="h-[260px] w-full" />
-            : <CustomersLineChart data={data} />}
+            ? <Skeleton className="h-64 w-full" />
+            : <FadeIn><CustomersLineChart data={data} /></FadeIn>}
         </CardContent>
       </Card>
     </div>

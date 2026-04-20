@@ -9,10 +9,10 @@ interface TopbarProps {
 
 export function Topbar({ title }: TopbarProps) {
   return (
-    <header className="flex h-14 items-center gap-3 border-b px-4" role="banner">
-      <SidebarTrigger aria-label="Toggle sidebar" />
+    <header className="sticky top-0 z-10 flex h-14 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur supports-backdrop-filter:bg-background/60" role="banner">
+      <SidebarTrigger aria-label="Toggle sidebar" className="shrink-0" />
       <Separator orientation="vertical" className="h-5" />
-      <h1 className="text-base font-semibold">{title}</h1>
+      <h1 className="text-sm font-semibold truncate sm:text-base">{title}</h1>
     </header>
   );
 }
