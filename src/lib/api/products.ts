@@ -1,4 +1,5 @@
 import type { ApiResponse, Product, ProductCategory } from "@/types";
+import { products } from "@/mocks/data/products";
 
 interface FetchProductsParams {
   category?: ProductCategory | "";
@@ -7,11 +8,9 @@ interface FetchProductsParams {
 
 export async function fetchProducts(params: FetchProductsParams = {}): Promise<ApiResponse<Product[]>> {
   const { category, search } = params;
-  const query = new URLSearchParams();
-  if (category) query.set("category", category);
-  if (search) query.set("search", search);
 
-  const res = await fetch(`/api/products?${query}`);
-  if (!res.ok) throw new Error("Failed to fetch products");
-  return res.json();
+  let filtered = category ? products.filter((p) => p.category === category) : products;
+  if (search) filtered = filtered.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
+
+  return { data: filtered, total: filtered.length };
 }

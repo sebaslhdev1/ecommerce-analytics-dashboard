@@ -27,7 +27,7 @@ A full-featured analytics dashboard built with Next.js 16, TypeScript, and shadc
 | Components | shadcn/ui (Nova preset, Radix UI) |
 | Charts | Recharts 3 |
 | Data fetching | TanStack React Query |
-| Mock API | MSW (Mock Service Worker) 2 |
+| Mock data | Seeded in-memory data layer |
 | Font | Geist Sans |
 
 ## Architecture
@@ -64,7 +64,7 @@ src/
 **Key architectural decisions:**
 
 - **Feature-based structure** — each section is self-contained. Adding or removing a feature means touching one folder, not hunting across the codebase.
-- **Single API swap point** — all fetch functions live in `src/lib/api/`. Replacing MSW with a real backend only requires changing these files.
+- **Single API swap point** — all fetch functions live in `src/lib/api/`. They currently import from `src/mocks/data/` directly (no service worker needed). Connecting a real backend only requires changing these files — nothing else.
 - **`staleTime: Infinity`** — data is fetched once per session and cached. Navigating between pages is instant with no redundant requests.
 
 ## Getting Started
@@ -77,16 +77,17 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The mock API starts automatically — you'll see `[MSW] Mocking enabled` in the browser console.
+Open [http://localhost:3000](http://localhost:3000). Mock data loads instantly — no external API or service worker required.
 
-## Mock API Endpoints
+## Mock Data Layer
 
-| Method | Endpoint | Description |
+All data functions live in `src/lib/api/` and import directly from `src/mocks/data/`. To connect a real backend, replace the function bodies with `fetch()` calls — the hooks and components stay unchanged.
+
+| Function | Data source | Description |
 |---|---|---|
-| GET | `/api/sales?days=30` | Daily revenue + order stats |
-| GET | `/api/sales/kpi` | KPI summary vs previous period |
-| GET | `/api/orders?status=&page=1` | Paginated orders with optional status filter |
-| GET | `/api/products?category=&search=` | Product catalog with filters |
-| GET | `/api/products/top` | Top 5 products by revenue |
-| GET | `/api/performance?days=30` | Conversion rate + customer data |
-| GET | `/api/performance/kpi` | Performance KPI summary |
+| `fetchSalesKpi()` | `sales.ts` | KPI summary vs previous 30 days |
+| `fetchSalesChart(days)` | `sales.ts` | Daily revenue + order stats |
+| `fetchOrders(params)` | `orders.ts` | Paginated orders with status filter |
+| `fetchProducts(params)` | `products.ts` | Product catalog with category + search |
+| `fetchPerformanceKpi()` | `performance.ts` | Performance KPI summary |
+| `fetchPerformanceChart(days)` | `performance.ts` | Conversion rate + customer data |
